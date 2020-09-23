@@ -3,6 +3,7 @@ import Modal from "../Modal";
 import history from "../../history";
 import {deleteStream, fetchStream} from "../../actions";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 class StreamDelete extends React.Component {
     componentDidMount() {
@@ -17,19 +18,13 @@ class StreamDelete extends React.Component {
     }
 
     render() {
-
-
         const {id} = this.props.match.params;
 
         const onDismiss = () => history.push('/');
 
-        const onDelete = async () => {
-            await this.props.deleteStream(id)
-            onDismiss()
-        }
         const actions = <>
-            <button className="ui negative button" onClick={onDelete}>Delete</button>
-            <button className="ui button" onClick={onDismiss}>Cancel</button>
+            <button className="ui negative button" onClick={() => this.props.deleteStream(id)}>Delete</button>
+            <Link to="/" className="ui button">Cancel</Link>
         </>
         return (
             <Modal
