@@ -2,6 +2,8 @@ import React from 'react';
 import {fetchStreams} from "../../actions";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
+import '../../css/main.css'
 
 class StreamList extends React.Component {
     componentDidMount() {
@@ -23,18 +25,23 @@ class StreamList extends React.Component {
     renderList() {
         return this.props.streams.map(stream => {
             return (
-                <div className="item" key={stream.id}>
-                    {this.renderAdmin(stream)}
-                    <i className="icon middle aligned icon camera"/>
-                    <div className="content">
-                        <Link to={'streams/show/' + stream.id}>
-                            {stream.title}
-                        </Link>
-                        <div className="description">
-                            {stream.description}
+                <CSSTransition
+                    key={stream.id} timeout={500}
+                    classNames="fade"
+                >
+                    <div className="item" key={stream.id}>
+                        {this.renderAdmin(stream)}
+                        <i className="icon middle aligned icon camera"/>
+                        <div className="content">
+                            <Link to={'streams/show/' + stream.id}>
+                                {stream.title}
+                            </Link>
+                            <div className="description">
+                                {stream.description}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </CSSTransition>
             )
         })
     }
@@ -55,9 +62,9 @@ class StreamList extends React.Component {
         return (
             <div>
                 <h2>Streams</h2>
-                <div className="ui celled list">
+                <TransitionGroup className="ui celled list">
                     {this.renderList()}
-                </div>
+                </TransitionGroup>
                 {this.renderCreate()}
             </div>
         )
